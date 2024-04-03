@@ -1,0 +1,86 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<ABC_Cinema.Models.Phim>
+
+@{
+    ViewBag.Title = "TimKiem";
+    Layout = "~/Views/Shared/_CinemaLayout.cshtml";
+}
+
+@helper Truncate(string s, int length)
+{
+    if (s.Length < length)
+    {
+        @s
+    }
+    else
+    {
+        @s.Substring(0, length)<text>...</text>
+    }
+}
+
+<h2 class="text-center" style="margin-top: 10px;">@ViewBag.Title_Header</h2>
+<p class="text-center">Theo từ khóa "@ViewBag.Search"</p>
+<hr />
+
+@using (Html.BeginForm("Search", "Search", FormMethod.Get, new { @class = "form-inline text-center" }))
+{
+    @Html.DropDownList("Id_TheLoai", null, "Thể Loại", new { @class = "form-control", onchange = "this.form.submit();" })
+    <select name="movieStatus" class="form-control" onchange="this.form.submit();">
+        <option value="all" @(ViewBag.MovieStatus == "all" ? "selected" : "")>Đang chiếu/Sắp chiếu</option>
+        <option value="nowPlaying" @(ViewBag.MovieStatus == "nowPlaying" ? "selected" : "")>Đang chiếu</option>
+        <option value="comingSoon" @(ViewBag.MovieStatus == "comingSoon" ? "selected" : "")>Sắp chiếu</option>
+    </select>
+
+    <select name="sortMovie" class="form-control" onchange="this.form.submit();">
+        <option value="newest" @(ViewBag.SortMovie == "newest" ? "selected" : "")>Mới nhất</option>
+        <option value="mostView" @(ViewBag.SortMovie == "mostView" ? "selected" : "")>Xem nhiều nhất</option>
+    </select>
+    <div class="input-group">
+        <input type="text" name="searchString" value="@ViewBag.Search" placeholder="Từ khóa tìm kiếm..." class="form-control">
+        <div class="input-group-btn">
+            <button type="submit" class="btn btn-search btn-danger">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </div>
+    </div>
+}
+<br />
+@{
+    if (Model.Count > 0)
+    {
+        <div class="row text-center">
+            @foreach (var result in Model)
+            {
+                <div class="col-sm-4 col-md-3 col-lg-3 col-xs-6">
+                    <div class="thumbnail">
+                        <a href="@Url.Action("detailsPhim","TrangChu", new {Id_Phim = result.Id_Phim})">
+                            <img src="~/Images/Upload/@result.AnhPhim" alt="Thumbnail Image 1" class="img-responsive img-rounded imgbook" style="width:300px;">
+                        </a>
+                        <div class="caption">
+                            <h4 style="min-height:45px; font-weight:bold; margin-top: 5px;">
+                                <a href="@Url.Action("detailsPhim","TrangChu", new {Id_Phim = result.Id_Phim})" style="text-decoration: none; color: #000000;">@Truncate(@result.TenPhim.ToUpper(), 30)</a>
+                            </h4>
+                            <div>
+                                <p><strong>Thể loại: </strong>@result.LoaiPhim.TenLoai</p>
+                                <p><strong>Thời lượng: </strong>@result.ThoiLuong phút</p>
+                                <p><strong>Khởi chiếu: </strong>@Html.FormatValue(@result.NgayCongChieu, "{0:dd/MM/yyyy}")</p>
+                            </div>
+                            <div class="rating-container" style="display: inline-block; vertical-align: middle; margin-right: 20px;">
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="rating-number">5.0</span>
+                            </div>
+                            <a href="#" class="btn btn-danger" role="button" style="display: inline-block; vertical-align: middle;">
+                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> MUA VÉ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <h4 class="text-center">Không có kết quả phù hợp!</h4>
+    }
+}
+<div class="menuTrang">@Html.PagedListPager(Model, page => Url.Action("Search", new { page }))</div>

@@ -1,0 +1,77 @@
+﻿@model ABC_Cinema.Models.RapPhim
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<h2>XÁC NHẬN THÔNG TIN CẦN XÓA</h2>
+<h3 style="color: red; font-weight: bold;">Bạn quyết định xóa rạp chiếu này?</h3>
+<h4 style="color: red; font-weight: bold;">@Html.Raw(ViewBag.ThongBao)</h4>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên rạp chiếu:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenRapChieu)
+        </dd>
+
+        <dt>
+            Số lượng phòng:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TongSoPhong)
+        </dd>
+
+        <dt>
+            Tỉnh/Thành:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThanhPho)
+        </dd>
+
+        <dt>
+            Quận/Huyện:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuanHuyen)
+        </dd>
+
+        <dt>
+            Phường/Xã:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhuongXa)
+        </dd>
+
+        <dt>
+            Giờ mở cửa:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GioMoCua)
+        </dd>
+
+        <dt>
+            Giờ đóng cửa:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GioDongCua)
+        </dd>
+    </dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="XÓA" class="btn btn-default" /> | @Html.ActionLink("VỀ TRANG QUẢN LÝ RẠP CHIẾU", "Index")
+        </div>
+    }
+</div>

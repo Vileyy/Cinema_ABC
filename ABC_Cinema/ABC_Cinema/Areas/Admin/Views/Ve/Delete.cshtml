@@ -1,0 +1,109 @@
+﻿@model ABC_Cinema.Models.Ve
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<h2>XÁC NHẬN THÔNG TIN CẦN XÓA</h2>
+<h3 style="color: red; font-weight: bold;">Bạn quyết định xóa vé này?</h3>
+<h4 style="color: red; font-weight: bold;">@Html.Raw(ViewBag.ThongBao)</h4>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Mã vé:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Ve)
+        </dd>
+
+        <dt>
+            Tên tài khoản:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaiKhoan.TenDangNhap)
+        </dd>
+
+        <dt>
+            Tên rạp:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LichChieu.RapPhim.TenRapChieu)
+        </dd>
+
+        <dt>
+            Tên phim:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LichChieu.Phim.TenPhim)
+        </dd>
+
+        <dt>
+            Ngày chiếu:
+        </dt>
+
+        <dd>
+            @Html.FormatValue(@Model.LichChieu.NgayChieu, "{0:dd/MM/yyyy}")
+        </dd>
+
+        <dt>
+            Suất chiếu:
+        </dt>
+
+        <dd>
+            @Html.Raw(@Model.LichChieu.GioBatDau.ToString() + " - " + @Model.LichChieu.GioKetThuc.ToString())
+        </dd>
+
+        <dt>
+            Tên phòng:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LichChieu.Phong.TenPhong)
+        </dd>
+
+        <dt>
+            Ngày đặt:
+        </dt>
+
+        <dd>
+            @Html.FormatValue(@Model.NgayDat, "{0:dd/MM/yyyy}")
+        </dd>
+
+        <dt>
+            Ghế:
+        </dt>
+
+        <dd>
+            @Html.Raw(@ViewBag.DSGhe)
+        </dd>
+
+        <dt>
+            Số lượng (ghế):
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SoluongGhe)
+        </dd>
+
+        <dt>
+            Giá vé (VNĐ):
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GiaVe)
+        </dd>
+    </dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="XÓA" class="btn btn-default" /> | @Html.ActionLink("VỀ TRANG QUẢN LÝ VÉ", "Index")
+        </div>
+    }
+</div>

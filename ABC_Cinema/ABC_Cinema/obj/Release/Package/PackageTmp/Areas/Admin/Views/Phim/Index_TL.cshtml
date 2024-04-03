@@ -1,0 +1,43 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<ABC_Cinema.Models.LoaiPhim>
+@{
+    ViewBag.Title = "Index_TL";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+<h3 style="text-align: center; font-weight: bold;">QUẢN LÝ THỂ LOẠI PHIM</h3>
+<div class="flex-box-2">
+    <div>
+        <a href="@Url.Action("Create_TL","Phim")" class="btn btn-success" role="button"><span class="fa fa-plus"></span> Thêm mới</a>
+        <a href="@Url.Action("Index","Phim")" class="btn btn-warning" role="button"><span class="fa fa-reply"></span> Phim</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="">
+        <div class="table-responsive">
+            <table id="mytable" class="table table-bordred table-striped">
+                <thead>
+                <th>Tên thể loại</th>
+                <th style="width: 13px;"></th>
+                <th style="width: 13px;"></th>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tbody>
+                        <tr>
+                            <td>@item.TenLoai</td>
+                            <td><p data-placement="top" data-toggle="tooltip" title="Sửa"><a href="@Url.Action("Edit_TL", new {id = item.Id_LoaiPhim})" class="btn btn-warning btn-xs" role="button"><span class="glyphicon glyphicon-pencil"></span></a></p></td>
+                            <td><p data-placement="top" data-toggle="tooltip" title="Xóa"><a href="@Url.Action("Delete_TL", new {id = item.Id_LoaiPhim})" class="btn btn-danger btn-xs" role="button"><span class="glyphicon glyphicon-trash"></span></a></p></td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+<div style="text-align: center;">
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+    <div style="display: inline;">
+        @Html.PagedListPager(Model, page => Url.Action("Index_TL", new { page = page }))
+    </div>
+</div>

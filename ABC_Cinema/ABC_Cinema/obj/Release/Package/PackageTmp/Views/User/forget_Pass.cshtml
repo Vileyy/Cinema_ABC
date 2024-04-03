@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "forget_Pass";
+    Layout = "~/Views/Shared/_CinemaLayout.cshtml";
+}
+<div class="text-center">
+    <h2 style="margin-top: 10px;">@ViewBag.Title_Header</h2>
+    <h4 class="text-danger">@Html.Raw(ViewBag.ThongBao)</h4>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-horizontal">
+            @using (Html.BeginForm("forget_Pass", "User", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <form>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="Email Address">Email</label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-envelope-o"></i>
+                                </div>
+                                <input id="Email Address" name="sEmail" type="email" placeholder="Nhập email" class="form-control input-md" required>
+                            </div>
+                            <span class="text-danger">@ViewBag.Email</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group text-center">
+                        <label class="col-md-4 control-label"></label>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Gửi</button>
+                        </div>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>

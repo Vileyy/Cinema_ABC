@@ -1,0 +1,225 @@
+﻿@model ABC_Cinema.Models.Ve
+@{
+    ViewBag.Title = "MuaVe";
+    Layout = "~/Views/Shared/_CinemaLayout.cshtml";
+}
+
+<h2 class="text-center" style="margin-top: 10px;">@ViewBag.Title_Header</h2>
+<hr />
+<div class="row">
+    @using (Html.BeginForm("MuaVe", "MuaVe", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <div class="text-left-button-right">
+                <p style="font-weight: bold; font-size: 18px;">Phim/Rạp</p>
+            </div>
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Chọn phim:</label>
+                    <div class="col-md-9" style="max-width: 500px;">
+                        @Html.DropDownList("MaPhim", null, "-- Chọn phim --", new { @class = "form-control", required = "required" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Chọn rạp:</label>
+                    <div class="col-md-9" style="max-width: 500px;">
+                        @Html.DropDownList("MaRap", null, "-- Chọn rạp --", new { @class = "form-control", required = "required" })
+                    </div>
+                </div>
+
+                <div class="text-left-button-right">
+                    <p style="font-weight: bold; font-size: 18px;">Suất Chiếu</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Chọn ngày chiếu:</label>
+                    <div class="col-md-9" style="max-width: 500px;">
+                        @Html.DropDownList("MaLC_NgayChieu", null, "-- Chọn suất chiếu --", new { id = "MaLC_NgayChieuDropdown", @class = "form-control", required = "required" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Chọn suất chiếu:</label>
+                    <div class="col-md-9" style="max-width: 500px;">
+                        @Html.DropDownList("MaLC_SuatChieu", null, "-- Chọn lịch chiếu --", new { id = "MaLC_SuatChieuDropdown", @class = "form-control", required = "required" })
+                    </div>
+                </div>
+
+                <div class="text-left-button-right">
+                    <p style="font-weight: bold; font-size: 18px;">Ghế</p>
+                </div>
+
+                <div class="form-group">
+                    <p class="text-danger">@ViewBag.Ghe</p>
+                    <label class="control-label col-md-2">Chọn ghế:</label>
+                    <div class="col-md-10">
+                        <div id="GheListContainer">
+                            @foreach (var ghe in ViewBag.MaGhe)
+                            {
+                                <div>
+                                    <input type="checkbox" id="ghe_@ghe.Value" name="SelectedGhes" value="@ghe.Value" />
+                                    <label for="ghe_@ghe.Value">@ghe.Text</label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="SelectedGhes" name="SelectedGhes" />
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="row movie-info" style="border: 2px solid #ff0000; border-radius: 8px; padding: 10px; margin: 10px 0; border-top-width: 5px; ">
+                <div class="col-lg-6">
+                    <img src="~/Images/movie_blank.png" alt="" class="img-responsive img-rounded" style="max-width: 150px;">
+                </div>
+                <div class="col-lg-6" style="font-size: 13px;">
+                    <p style="font-size: 18px; font-weight: bold;"></p>
+                    <p></p>
+                    <p style="font-weight: bold;"></p>
+                </div>
+                <div class="col-md-12" style="padding-top: 20px; font-weight: bold; font-size: 15px;">
+                    <p></p>
+                    <p></p>
+                </div>
+                <div class="col-md-12" style="border-top: 1px dashed #000; width: 100%; margin-top: 10px;"></div>
+                <div class="col-md-12" style="font-weight: bold; font-size: 15px;">
+                    <p style="margin-top: 10px;">Tổng cộng: <span style="color: red;" id="totalAmount"></span></p>
+                </div>
+                <div class="col-md-12" style="border-top: 1px dashed #000; width: 100%;"></div>
+                <div class="col-md-12 text-right" style="padding-top: 20px;">
+                    <a href="#" class="btn btn-default" style="margin-right: 15px;">Quay lại</a>
+                    <button type="submit" class="btn btn-danger">Mua vé</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                var selectedGhes = []; // Mảng lưu danh sách ghế đã chọn
+                var giaGhe;
+                var selectedPhimId = $("#MaPhim").val();
+                var selectedLichId = $("#MaLC_SuatChieuDropdown").val();
+    $("#MaPhim, #MaRap, #MaLC_NgayChieuDropdown, #MaLC_SuatChieuDropdown").change(function () {
+        selectedPhimId = $("#MaPhim").val();
+        var selectedRapId = $("#MaRap").val();
+        var ncDropdown = $("#MaLC_NgayChieuDropdown");
+        var scDropdown = $("#MaLC_SuatChieuDropdown");
+        var selectedNgayChieu = $("#MaLC_NgayChieuDropdown").val();
+        selectedLichId = $("#MaLC_SuatChieuDropdown").val();
+        var gheContainer = $("#GheListContainer");
+
+        $.ajax({
+        url: '@Url.Action("GetLichChieus")',
+        type: 'POST',
+        data: { phimId: selectedPhimId, rapId: selectedRapId },
+        success: function (data) {
+            var currentSelection = ncDropdown.val();
+            ncDropdown.find('option').remove(); // Xóa tất cả tùy chọn, ngoại trừ giá trị đang được chọn
+            $.each(data, function (index, item) {
+                ncDropdown.append($('<option>', {
+                    value: item.Value,
+                    text: item.Text
+                }));
+            });
+            // Khôi phục giá trị đã chọn
+            ncDropdown.val(currentSelection);
+        }
+        });
+
+        $.ajax({
+        url: '@Url.Action("GetLichChieus_SuatChieu")',
+        type: 'POST',
+        data: { phimId: selectedPhimId, rapId: selectedRapId, ngaychieu: selectedNgayChieu },
+        success: function (data) {
+            var currentSelection = scDropdown.val();
+            scDropdown.find('option').remove(); // Xóa tất cả tùy chọn, ngoại trừ giá trị đang được chọn
+            $.each(data, function (index, item) {
+                scDropdown.append($('<option>', {
+                    value: item.Value,
+                    text: item.Text
+                }));
+            });
+            // Khôi phục giá trị đã chọn
+            scDropdown.val(currentSelection);
+            updateGheList();
+        }
+        });
+
+        updateMovieInfo();
+
+        function updateGheList() {
+            $.ajax({
+                url: '@Url.Action("GetGhes")',
+                type: 'POST',
+                data: { lichId: selectedLichId },
+                success: function (data) {
+                    gheContainer.empty();
+                    selectedGhes = []; // Xóa danh sách ghế đã chọn
+                    $.each(data, function (index, item) {
+                        var checkbox = $('<input type="checkbox" style="margin-left: 10px;" id="' + item.Value + '" name="SelectedGhes" value="' + item.Value + '" />');
+                        var label = $('<label style="margin-left: 3px;" for="' + item.Value + '">' + item.Text + '</label>');
+                        checkbox.click(function () {
+                            if (checkbox.is(':checked')) {
+                                selectedGhes.push(item.Value);
+                            } else {
+                                selectedGhes = selectedGhes.filter(function (value) {
+                                    return value !== item.Value;
+                                });
+                            }
+                        });
+                        gheContainer.append(checkbox);
+                        gheContainer.append(label);
+                    });
+                }
+            });
+        }
+    });
+                updateMovieInfo();
+
+                function updateMovieInfo() {
+
+    $.ajax({
+        url: '@Url.Action("GetMovieDetails")',
+        type: 'POST',
+        data: { phimId: selectedPhimId, lichchieuId: selectedLichId },
+        success: function (data) {
+            $(".movie-info img").attr("src", "/Images/Upload/" + data.AnhPhim);
+            $(".movie-info p:eq(0)").text(data.TenPhim);
+            $(".movie-info p:eq(1)").text(data.ChatLuong);
+            $(".movie-info p:eq(2)").text(data.DoTuoi);
+            $(".movie-info p:eq(3)").text("Rạp: "+data.TenRap);
+            $(".movie-info p:eq(4)").text("Suất: " + data.GioChieu + " - " + data.NgayChieu);
+            giaGhe = data.GiaGhe;
+        }
+    });
+}
+
+                $("#GheListContainer").on("change", 'input[name="SelectedGhes"]', function () {
+                    updateTotalAmount();
+                });
+
+                function updateTotalAmount() {
+                    var selectedGhesCount = $('input[name="SelectedGhes"]:checked').length;
+                    var totalPrice = selectedGhesCount * giaGhe;
+
+                    $("#totalAmount").text(totalPrice.toLocaleString() + " VNĐ");
+                }
+
+                $("form").submit(function (e) {
+                    if (selectedGhes.length === 0) {
+                        alert("Vui lòng chọn ghế!");
+                        e.preventDefault(); // Ngăn chặn việc gửi biểu mẫu nếu selectedGhes rỗng
+                    } else {
+                        // Gán danh sách ghế đã chọn vào một trường ẩn để gửi lên server
+                        $("#SelectedGhes").val(selectedGhes.join(','));
+                    }
+                });
+});
+        </script>
+
+    }
+</div>

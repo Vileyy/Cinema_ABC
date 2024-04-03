@@ -1,0 +1,54 @@
+﻿@model ABC_Cinema.Models.TRANGTIN
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<h2>XÁC NHẬN THÔNG TIN CẦN XÓA</h2>
+<h3 style="color: red; font-weight: bold;">Bạn quyết định xóa trang tin này?</h3>
+<h4 style="color: red; font-weight: bold;">@Html.Raw(ViewBag.ThongBao)</h4>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên trang:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenTrang)
+        </dd>
+
+        <dt>
+            Nội dung:
+        </dt>
+
+        <dd>
+            @Html.Raw(@Model.NoiDung.ToString())
+        </dd>
+
+        <dt>
+            Ngày tạo:
+        </dt>
+
+        <dd>
+            @Html.FormatValue(@Model.NgayTao, "{0:dd/MM/yyyy}")
+        </dd>
+
+        <dt>
+            Meta Title:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MetaTitle)
+        </dd>
+    </dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="XÓA" class="btn btn-default" /> | @Html.ActionLink("VỀ TRANG QUẢN LÝ TRANG TIN", "Index")
+        </div>
+    }
+</div>

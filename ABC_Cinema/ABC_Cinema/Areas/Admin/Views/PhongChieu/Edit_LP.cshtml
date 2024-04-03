@@ -1,0 +1,51 @@
+﻿@model ABC_Cinema.Models.LoaiPhong
+@{
+    ViewBag.Title = "Edit_LP";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<script src="~/ckeditor/ckeditor.js"></script>
+
+<h2>ĐIỀU CHỈNH THÔNG TIN LOẠI PHÒNG</h2>
+<h4 style="color: red; font-weight: bold;">@Html.Raw(ViewBag.ThongBao)</h4>
+@using (Html.BeginForm("Edit_LP", "PhongChieu", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Mã loại phòng:</label>
+            <div class="col-md-10">
+                <input type="text" size="70" name="iMaLP" value="@Model.Id_LoaiPhong" readonly />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên loại phòng:</label>
+            <div class="col-md-10">
+                <input type="text" size="70" name="sTenLP" value="@Model.TenLoaiPhong"
+                       required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Mô tả:</label>
+            <div class="col-md-10">
+                <textarea name="sMoTa" id="mota">@Model.MoTa</textarea>
+                <script>CKEDITOR.replace('mota');</script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="LƯU THÔNG TIN" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("VỀ TRANG QUẢN LÝ LOẠI PHÒNG", "Index_LP")
+</div>
+

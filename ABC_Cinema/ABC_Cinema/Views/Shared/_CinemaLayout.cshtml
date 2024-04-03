@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href='//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' rel='stylesheet' />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/Scripts/js")
+    @Styles.Render("~/Content/User/css")
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    @Html.Action("Header_Partial", "TrangChu")
+    @Html.Action("Nav_Partial", "TrangChu")
+
+    @RenderSection("slider", required: false)
+    <div class="container">
+        @RenderBody()
+    </div>
+    @RenderSection("phimdexuat", required: false)
+    @Html.Action("Footer_Partial", "TrangChu")
+</body>
+</html>

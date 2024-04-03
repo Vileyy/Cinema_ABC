@@ -1,0 +1,22 @@
+﻿@model ABC_Cinema.Models.TRANGTIN
+@{
+    ViewBag.Title = "TrangTin";
+    Layout = "~/Views/Shared/_CinemaLayout2.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="text-left-button-right" style="padding-bottom: 15px;">
+            <p><span style="font-weight: bold; font-size: 22px;">@Model.TenTrang.ToUpper()</span><br />Ngày đăng: @Html.FormatValue(@Model.NgayTao, "{0:dd/MM/yyyy}")</p>
+        </div>
+        @Html.Raw(Model.NoiDung)
+    </div>
+    <div class="col-md-12" style="padding-top: 10px;">
+        <a href="@Url.Action("Index","TrangChu")" class="text-primary" style="text-decoration: none; font-size: 16px;" >VỀ TRANG CHỦ</a>
+    </div>
+</div>
+
+@section phimdexuat{
+    @Html.Action("PhimDeXuat_Partial", "TrangChu")
+}
+

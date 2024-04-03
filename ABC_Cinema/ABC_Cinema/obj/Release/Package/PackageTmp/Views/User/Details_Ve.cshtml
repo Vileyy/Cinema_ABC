@@ -1,0 +1,58 @@
+﻿@model ABC_Cinema.Models.Ve
+@{
+    ViewBag.Title = "Details_Ve";
+    Layout = "~/Views/Shared/_CinemaLayout.cshtml";
+}
+
+<style>
+
+    #ticket {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border: 2px solid #ff0000;
+        border-top-width: 5px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+@{
+    if (Model != null)
+    {
+        <h3 class="text-center" style="margin-top: 10px;">@ViewBag.Message</h3>
+        <hr />
+        <div class="container">
+            <div id="ticket" class="row">
+                <div class="col-md-6 col-sm-6">
+                    <img src="~/Images/Upload/@Model.LichChieu.Phim.AnhPhim" alt="Image" class="img-responsive">
+                </div>
+                <div class="col-md-6 col-sm-6" style="font-size: 14px;">
+                    <p style="font-size: 18px; font-weight: bold;">@Model.LichChieu.Phim.TenPhim</p>
+                    <p>Tên Rạp: <strong>@Model.LichChieu.RapPhim.TenRapChieu</strong></p>
+                    <p>Phòng Chiếu: <strong>@Model.LichChieu.Phong.TenPhong</strong></p>
+                    <p>Ngày Chiếu: <strong>@Html.FormatValue(@Model.LichChieu.NgayChieu, "{0:dd/MM/yyyy}")</strong></p>
+                    <p>Suất Chiếu: <strong>@Model.LichChieu.GioBatDau</strong></p>
+                    <p>Thời Lượng: <strong>@Model.LichChieu.Phim.ThoiLuong</strong></p>
+                    <p>Ghế: <strong>@Html.Raw(@ViewBag.DSGhe)</strong></p>
+                    <p>Địa Chỉ Cụm Rạp: <strong>@Model.LichChieu.RapPhim.PhuongXa - @Model.LichChieu.RapPhim.QuanHuyen - @Model.LichChieu.RapPhim.ThanhPho</strong></p>
+                    <p>Giá: <strong style="color: red;">@Model.GiaVe.ToString().Replace(".00", "") VNĐ</strong></p>
+                </div>
+                <div class="col-md-12 col-sm-12" style="border-top: 1px dashed #000; width: 100%; margin: 10px 0px;"></div>
+                <div class="text-center col-md-12 col-sm-12">
+                    <a href="@Url.Action("user_Ticket","User", new {Id_TaiKhoan = Session["Id_TaiKhoan"]})"><button class="btn btn-success"><span class="fa fa-reply"></span> Quay lại</button></a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h3 class="text-danger">Bạn đã hủy thanh toán!</h3>
+    }
+}
+

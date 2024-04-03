@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href='//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' rel='stylesheet' />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/Scripts/js")
+    @Styles.Render("~/Content/User/css")
+    <style type="text/css">
+        .phim_LichChieu-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .phim_LichChieu-item {
+            border: 1px solid #ccc;
+            background-color: white;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .phim_LichChieu-content {
+            margin-right: 10px;
+        }
+
+            .phim_LichChieu-content p {
+                margin: 0;
+            }
+
+        .flex-box-2 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0px 20px 0px;
+        }
+
+        .cross {
+            padding: 10px;
+            color: #d6312d;
+            cursor: pointer;
+            font-size: 23px;
+        }
+
+            .cross i {
+                margin-top: -5px;
+                cursor: pointer;
+            }
+
+        .comment-box {
+            padding: 5px
+        }
+
+        .comment-area textarea {
+            resize: none;
+            border: 1px solid #ff0000
+        }
+
+        .form-control:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #ffffff;
+            outline: 0;
+            box-shadow: 0 0 0 1px rgb(255, 0, 0) !important
+        }
+
+        .send {
+            color: #fff;
+            background-color: #ff0000;
+            border-color: #ff0000
+        }
+
+            .send:hover {
+                color: #fff;
+                background-color: #f50202;
+                border-color: #f50202
+            }
+
+        .rating {
+            display: inline-flex;
+            margin-top: -10px;
+            flex-direction: row-reverse;
+        }
+
+            .rating > input {
+                display: none
+            }
+
+            .rating > label {
+                position: relative;
+                width: 28px;
+                font-size: 35px;
+                color: #ff0000;
+                cursor: pointer;
+            }
+
+                .rating > label::before {
+                    content: "\2605";
+                    position: absolute;
+                    opacity: 0
+                }
+
+                .rating > label:hover:before,
+                .rating > label:hover ~ label:before {
+                    opacity: 1 !important
+                }
+
+            .rating > input:checked ~ label:before {
+                opacity: 1
+            }
+
+            .rating:hover > input:checked ~ label:before {
+                opacity: 0.4
+            }
+
+        .comment-section {
+            margin-top: 20px;
+        }
+
+        .comment {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            font-weight: bold;
+        }
+
+        .comment-date {
+            color: #888;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    @Html.Action("Header_Partial", "TrangChu")
+    @Html.Action("Nav_Partial", "TrangChu")
+
+    @RenderSection("slider", required: false)
+    <h2 class="text-center" style="margin-top: 10px;">@ViewBag.Title_Header</h2>
+    <div class="container">
+        <hr style="margin-top: 10px;" />
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                @RenderBody()
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                @Html.Action("PhimDangChieu_Partial", "TrangChu")
+            </div>
+        </div>
+    </div>
+    @RenderSection("phimdexuat", required: false)
+    @Html.Action("Footer_Partial", "TrangChu")
+</body>
+</html>

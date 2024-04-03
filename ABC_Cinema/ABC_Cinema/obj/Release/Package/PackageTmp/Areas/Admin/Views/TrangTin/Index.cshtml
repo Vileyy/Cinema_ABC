@@ -1,0 +1,77 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<ABC_Cinema.Models.TRANGTIN>
+
+@helper Truncate(string s, int length)
+{
+    var plainText = System.Text.RegularExpressions.Regex.Replace(s, "<.*?>", ""); // Loại bỏ mã HTML
+    if (plainText.Length <= length)
+    {
+        @Html.Raw(plainText)
+    }
+    else
+    {
+        var truncatedText = plainText.Substring(0, length);
+        @Html.Raw(truncatedText + "...")
+    }
+}
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+<h3 style="text-align: center; font-weight: bold;">QUẢN LÝ TRANG TIN</h3>
+<div class="flex-box-2">
+    <div>
+        <a href="@Url.Action("Create","TrangTin")" class="btn btn-success" role="button"><span class="fa fa-plus"></span> Thêm mới</a>
+        <a href="@Url.Action("Index","Home")" class="btn btn-warning" role="button"><span class="fa fa-reply"></span> Quay lại</a>
+    </div>
+</div>
+@{
+    if (Model.Count > 0)
+    {
+        <div class="row">
+            <div class="">
+                <div class="table-responsive">
+                    <table id="mytable" class="table table-bordred table-striped">
+                        <thead>
+                        <th>
+                            Tên trang
+                        </th>
+                        <th>
+                            Nội dung
+                        </th>
+                        <th>Ngày tạo</th>
+                        <th>Meta Title</th>
+                        <th style="width: 13px;"></th>
+                        <th style="width: 13px;"></th>
+                        <th style="width: 13px;"></th>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>@item.TenTrang</td>
+                                    <td>@Html.Raw(Truncate(item.NoiDung, 75).ToString())</td>
+                                    <td>@Html.FormatValue(@item.NgayTao, "{0:dd/MM/yyyy}")</td>
+                                    <td>@item.MetaTitle</td>
+                                    <td><p data-placement="top" data-toggle="tooltip" title="Sửa"><a href="@Url.Action("Edit", new {id = item.MaTT})" class="btn btn-warning btn-xs" role="button"><span class="glyphicon glyphicon-pencil"></span></a></p></td>
+                                    <td><p data-placement="top" data-toggle="tooltip" title="Xóa"><a href="@Url.Action("Delete", new {id = item.MaTT})" class="btn btn-danger btn-xs" role="button"><span class="glyphicon glyphicon-trash"></span></a></p></td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h4 class="text-center">Không có kết quả phù hợp!</h4>
+    }
+}
+<div style="text-align: center;">
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+    <div style="display: inline;">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+    </div>
+</div>

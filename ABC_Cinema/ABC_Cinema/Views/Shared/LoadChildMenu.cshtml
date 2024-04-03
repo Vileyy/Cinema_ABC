@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ABC_Cinema.Models.MENU>
+@{
+    int i = 0;
+    @:<ul class="dropdown-menu">
+        foreach (var item in Model)
+        {
+            if (ViewBag.lst[i] != 0)
+            {
+                <li class="dropdown-submenu">
+                    <a href="@item.MenuLink" class="test">
+                        @item.MenuName <span class="caret"></span>
+                    </a>
+                    @Html.Action("LoadChildMenu", "TrangChu", new { parentId = item.Id })
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="~/@item.MenuLink">@item.MenuName</a>
+                </li>
+            }
+            if (i < Model.Count() - 1)
+            {
+                <li role="separator" class="divider"></li>
+            }
+
+            i++;
+        }
+    @:</ul>
+}

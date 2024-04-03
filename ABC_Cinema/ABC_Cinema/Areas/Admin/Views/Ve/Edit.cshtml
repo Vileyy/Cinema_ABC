@@ -1,0 +1,162 @@
+﻿@model ABC_Cinema.Models.Ve
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<h2>ĐIỀU CHỈNH THÔNG TIN VÉ</h2>
+<h4 style="color: red; font-weight: bold;">@Html.Raw(ViewBag.ThongBao)</h4>
+@using (Html.BeginForm("Edit", "Ve", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Mã vé:</label>
+            <div class="col-md-10">
+                <input type="text" size="70" name="iMaVe" value="@Model.Id_Ve" readonly />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên tài khoản:</label>
+            <div class="col-md-10">
+                <input type="text" size="30" value="@Model.TaiKhoan.TenDangNhap"
+                       readonly="" />
+                <span class="text-danger">@ViewBag.TKError </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên phim:</label>
+            <div class="col-md-10">
+                <input type="text" size="30" value="@Model.LichChieu.Phim.TenPhim" readonly="" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên rạp:</label>
+            <div class="col-md-10">
+                <input type="text" size="30" value="@Model.LichChieu.RapPhim.TenRapChieu" readonly="" />
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="control-label col-md-2">Ngày chiếu:</label>
+            <div class="col-md-10">
+                <input type="date" size="30" value="@(Model.LichChieu.NgayChieu.ToString("yyyy-MM-dd"))" readonly="" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Suất chiếu:</label>
+            <div class="col-md-10">
+                <input type="text" size="30" id="KhungGio" readonly="" />
+                <input type="hidden" id="MaLC" value="@Model.Id_LichChieu" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p class="text-danger">@ViewBag.Ghe</p>
+            <label class="control-label col-md-2">Danh sách ghế:</label>
+            <div class="col-md-10">
+                <div id="GheListContainer">
+                    @foreach (var ghe in ViewBag.MaGhe)
+                    {
+                        <div>
+                            <input type="checkbox" id="ghe_@ghe.Value" name="SelectedGhes" value="@ghe.Value" />
+                            <label for="ghe_@ghe.Value">@ghe.Text</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="SelectedGhes" name="SelectedGhes" />
+        <script>
+    $(document).ready(function () {
+        var selectedGhes = [];
+
+        var GioBatDau = '@Model.LichChieu.GioBatDau.ToString()';
+        var GioKetThuc = '@Model.LichChieu.GioKetThuc.ToString()';
+
+        var KhungGio = GioBatDau + " - " + GioKetThuc;
+        document.getElementById("KhungGio").value = KhungGio;
+
+        function updateGheList(selectedLichId) {
+            var gheContainer = $("#GheListContainer");
+
+            $.ajax({
+                url: '@Url.Action("GetGhes")',
+                type: 'POST',
+                data: { lichId: selectedLichId },
+                success: function (data) {
+                    gheContainer.empty();
+                    selectedGhes = [];
+                    $.each(data, function (index, item) {
+                        var checkbox = $('<input type="checkbox" style="margin-left: 10px;" id="' + item.Value + '" name="SelectedGhes" value="' + item.Value + '" />');
+                        var label = $('<label style="margin-left: 3px;" for="' + item.Value + '">' + item.Text + '</label>');
+                        checkbox.click(function () {
+                            if (checkbox.is(':checked')) {
+                                selectedGhes.push(item.Value);
+                            } else {
+                                selectedGhes = selectedGhes.filter(function (value) {
+                                    return value !== item.Value;
+                                });
+                            }
+                        });
+                        gheContainer.append(checkbox);
+                        gheContainer.append(label);
+                    });
+                }
+            });
+        }
+
+        var selectedLichId = $("#MaLC").val();
+        updateGheList(selectedLichId);
+
+        // Form submission
+        $("form").submit(function (e) {
+            if (selectedGhes.length === 0) {
+                $("#GheError").text("Vui lòng chọn ghế!");
+                e.preventDefault();
+            } else {
+                $("#SelectedGhes").val(selectedGhes.join(','));
+            }
+        });
+    });
+        </script>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Ngày đặt:</label>
+            <div class="col-md-10">
+                <input type="date" value="@(Model.NgayDat.ToString("yyyy-MM-dd"))" readonly="readonly" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Số lượng (ghế):</label>
+            <div class="col-md-10">
+                <input type="text" size="70" value="@Model.SoluongGhe" readonly />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Giá vé (VNĐ):</label>
+            <div class="col-md-10">
+                <input type="text" size="70" value="@Model.GiaVe" readonly />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="LƯU THÔNG TIN" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("VỀ TRANG QUẢN LÝ PHÒNG CHIẾU", "Index")
+</div>

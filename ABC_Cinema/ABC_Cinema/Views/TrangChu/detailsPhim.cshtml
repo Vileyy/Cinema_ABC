@@ -1,0 +1,199 @@
+﻿@{
+    ViewBag.Title = "detailsPhim";
+    Layout = "~/Views/Shared/_CinemaLayout2.cshtml";
+}
+<div class="row">
+    <div class="col-md-4">
+        <img src="~/Images/Upload/@Model.AnhPhim" alt="" class="img-responsive img-rounded">
+    </div>
+    <div class="col-md-8">
+        <input type="hidden" name="id_Phim" value="@Model.Id_Phim" />
+        <h3 style="font-weight: bold;">@Model.TenPhim.ToUpper()</h3>
+        <p><strong>Đạo diễn:</strong> @Model.DaoDien</p>
+        <p><strong>Diễn viên:</strong> @Model.DienVien</p>
+        <p><strong>Thể loại:</strong> @Model.LoaiPhim.TenLoai</p>
+        <p><strong>Ngày công chiếu:</strong> @Html.FormatValue(@Model.NgayCongChieu, "{0:dd/MM/yyyy}")</p>
+        <p><strong>Thời lượng:</strong> @Model.ThoiLuong phút</p>
+        <p><strong>Chất lượng:</strong> @Model.ChatLuong</p>
+        <div class="flex-box-2">
+            <div>
+                <div class="rating-container" style="display: inline-block; vertical-align: middle; margin-right: 20px;">
+                    <span class="fa fa-star" style="color: #F6C343;"></span>
+                    <span class="rating-number">@Model.DanhGia</span>
+                </div>
+                @if (Session["taikhoan"] != null)
+                {
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#commentModal"><span class="fa fa-star"></span> ĐÁNH GIÁ</button>
+                    <a href="@Url.Action("MuaVe", "MuaVe", new { Id_Phim = @Model.Id_Phim })" class="btn btn-danger" role="button" style="display: inline-block; vertical-align: middle;">
+                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> MUA VÉ
+                    </a>
+                }
+                else
+                {
+                    <a href="~/Views/Shared/Nav_Partial.cshtml" data-target="#myModal" data-toggle="modal" class="btn btn-danger" role="button"><span class="fa fa-star"></span> ĐÁNH GIÁ</a>
+                    <a href="~/Views/Shared/Nav_Partial.cshtml" data-target="#myModal" data-toggle="modal" class="btn btn-danger" role="button">
+                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> MUA VÉ
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding: 30px 0px;">
+    <div class="col-md-12">
+        <div class="text-left-button-right">
+            <p style="font-weight: bold; font-size: 18px;">Nội Dung Phim</p>
+        </div>
+        @Html.Raw(@Model.MoTa)
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="text-left-button-right">
+            <p style="font-weight: bold; font-size: 18px;">Lịch Chiếu</p>
+        </div>
+
+        @if (ViewData["phim_LichChieu"] != null && ((List<ABC_Cinema.Models.LichChieu>)ViewData["phim_LichChieu"]).Any())
+        {
+            <div class="phim_LichChieu-container">
+                @foreach (var lc in ViewData["phim_LichChieu"] as List<ABC_Cinema.Models.LichChieu>)
+                {
+                    <div class="phim_LichChieu-item">
+                        <div class="phim_LichChieu-content">
+                            <p>@lc.RapPhim.TenRapChieu</p>
+                            <p>@Html.FormatValue(@lc.NgayChieu, "{0:dd/MM/yyyy}")</p>
+                        </div>
+                        @if (Session["taikhoan"] != null)
+                        {
+                            <a href="@Url.Action("MuaVe", "MuaVe", new { Id_Phim = lc.Id_Phim })" style="text-decoration: none; color: #000000;">
+                                <button type="button" class="btn btn-primary">@lc.GioBatDau.ToString()</button>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="~/Views/Shared/Nav_Partial.cshtml" data-target="#myModal" data-toggle="modal" style="text-decoration: none; color: #000000;">
+                                <button type="button" class="btn btn-primary">@lc.GioBatDau.ToString()</button>
+                            </a>
+                        }
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>@Model.TenPhim hiện chưa có lịch chiếu!!</p>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="text-left-button-right">
+            <p style="font-weight: bold; font-size: 18px;">Đánh Giá</p>
+        </div>
+
+        @if (ViewData["DanhGia"] != null && ((List<ABC_Cinema.Models.NoiDung>)ViewData["DanhGia"]).Any())
+        {
+            <div class="comment-section">
+                @foreach (var dg in ViewData["DanhGia"] as List<ABC_Cinema.Models.NoiDung>)
+                {
+                    <div class="comment">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <img src="/Images/no-avatar.png" alt="Avatar" style="width: 45px; height: 45px; border-radius: 50%;">
+                                @if (dg.TaiKhoan.ThongTin.TenNguoiDung != null)
+                                {
+                                    <span class="user-info" style="padding-left: 6px;">@dg.TaiKhoan.ThongTin.TenNguoiDung</span>
+                                }
+                                else
+                                {
+                                    <span class="user-info" style="padding-left: 6px;">@dg.TaiKhoan.TenDangNhap</span>
+                                }
+                                <span><span class="fa fa-star" style="color: #F6C343;"></span> @dg.BinhLuan.DanhGia</span>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <p class="comment-date">@dg.BinhLuan.NgayDang.ToString("dd/MM/yyyy")</p>
+                            </div>
+                            <div class="col-md-12" style="padding-top: 10px;">
+                                <p style="">@dg.BinhLuan.NoiDung</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>Chưa có đánh giá nào về @Model.TenPhim!!</p>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="text-right cross"> <i class="fa fa-times mr-2" id="btn-close"></i> </div>
+            <div class="card-body text-center">
+                <img src="/Images/icon-comment.png" height="100" width="100">
+                <div class="comment-box text-center">
+                    <h4>Đánh giá @Model.TenPhim</h4>
+                    <div class="rating"> <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label> </div>
+                    <div class="comment-area"> <textarea class="form-control" name="comment" placeholder="Đánh giá của bạn về @Model.TenPhim" rows="4"></textarea> </div>
+
+                    <div class="text-center mt-4" style="padding-top: 10px;">
+                        <button type="button" class="btn btn-success send px-5">ĐĂNG</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.send').on('click', function () {
+
+            var rating = $('input[name="rating"]:checked').val();
+            var comment = $('textarea[name="comment"]').val();
+            var id_Phim = $('input[name="id_Phim"]').val();
+
+            if (comment === '') {
+                comment = '';
+            }
+
+            if (!rating) {
+                alert('Vui lòng cho chúng tôi biết đánh giá của bạn!');
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("DanhGia","TrangChu")',
+                type: "POST",
+                data: {
+                    rating: rating,
+                    comment: comment,
+                    id_Phim: id_Phim
+                },
+                success: function (response) {
+                    alert('Cảm ơn bạn đã để lại đánh giá!');
+                    window.location.reload();
+                }
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btn-close").click(function () {
+            $("#commentModal").modal("hide");
+        });
+    });
+</script>
+
+@section phimdexuat
+{
+    @Html.Action("PhimDeXuat_Partial", "TrangChu")
+}

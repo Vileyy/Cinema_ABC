@@ -1,0 +1,38 @@
+﻿@model ABC_Cinema.Models.LoaiGhe
+@{
+    ViewBag.Title = "Delete_LG";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<h2>XÁC NHẬN THÔNG TIN CẦN XÓA</h2>
+<h3 style="color: red; font-weight: bold;">Bạn quyết định xóa loại ghế này?</h3>
+<h4 style="color: red; font-weight: bold;">@Html.Raw(ViewBag.ThongBao)</h4>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên loại ghế:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenLoaiGhe)
+        </dd>
+
+        <dt>
+             Giá ghế (VNĐ):
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GiaGhe)
+        </dd>
+    </dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="XÓA" class="btn btn-default" /> | @Html.ActionLink("VỀ TRANG QUẢN LÝ LOẠI GHẾ", "Index_LG")
+        </div>
+    }
+</div>
+

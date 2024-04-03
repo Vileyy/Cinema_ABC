@@ -1,0 +1,44 @@
+﻿@model ABC_Cinema.Models.TRANGTIN
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<script src="~/ckeditor/ckeditor.js"></script>
+
+<h2>THÊM TRANG TIN</h2>
+<h4 style="color: red; font-weight: bold;">@Html.Raw(ViewBag.ThongBao)</h4>
+
+@using (Html.BeginForm("Create", "TrangTin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên trang:</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" style="max-width: 400px;" name="sTenTrang" value="@ViewBag.TenTrang"
+                       required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Nội dung:</label>
+            <div class="col-md-10">
+                <textarea name="sNoiDung" class="form-control" id="noidung">@ViewBag.NoiDung</textarea>
+                <script>CKEDITOR.replace('noidung');</script>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thêm mới" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("VỀ TRANG QUẢN LÝ TRANG TIN", "Index")
+</div>
+

@@ -1,0 +1,41 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Đăng nhập</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/Scripts/js")
+    @Styles.Render("~/Content/Login/css")
+</head>
+<body>
+<div class="login">
+    <div class="account-login">
+        <h1>ĐĂNG NHẬP QUẢN TRỊ VIÊN</h1>
+        <form action="@Url.Action("Login","Home")" method="post" class="login-form">
+            <div class="text-danger">@ViewBag.ThongBao</div>
+            <div class="form-group">
+                <input type="text" placeholder="Nhập Tài khoản" name="username" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="password" placeholder="Nhập Mật khẩu" name="password" class="form-control">
+            </div>
+            <div class="remember">
+                <label class="custom-checkbox">
+                    Lưu đăng nhập
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+                <a href="@Url.Action("forget_Pass","Home")" class="pull-right">Quên mật khẩu?</a>
+            </div>
+            <button type="submit" class="btn"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

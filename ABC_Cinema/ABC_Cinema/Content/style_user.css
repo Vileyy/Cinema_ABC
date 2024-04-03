@@ -1,0 +1,227 @@
+﻿body {
+    font-family: 'Roboto', sans-serif;
+}
+
+hr {
+    border: 2px solid #f2f2f2;
+    margin-bottom: 10px;
+}
+
+.imgbook {
+    transition: all 1s ease-in;
+    width: 400px;
+}
+
+    .imgbook:hover {
+        transform: scale(0.97);
+        cursor: pointer;
+    }
+
+.imgsachbannhieu {
+    transition: all 1s ease-in;
+    width: 100px;
+}
+
+    .imgsachbannhieu:hover {
+        transform: scale(0.97);
+        cursor: pointer;
+    }
+
+.imglogo {
+    width: 300px;
+    height: 50px;
+}
+
+.menuTrang {
+    display: inline;
+    text-align: center;
+}
+
+.header {
+    background-color: #F7F9FA;
+    padding: 20px 0;
+}
+
+.navbar-inverse {
+    background-color: #000000;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.nav-item > li {
+    padding-right: 20px;
+}
+
+.navbar-form .input-group {
+    width: 320px;
+}
+
+.navbar-form .form-control {
+    font-size: 16px;
+}
+
+.navbar-form .input-group-btn .btn {
+    background-color:;
+}
+
+.dropdown:hover .dropdown-menu {
+}
+
+.dropdown-menu {
+    background-color: #000000;
+}
+
+    .dropdown-menu li > a {
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+footer.nb-footer {
+    background: #222;
+    border-top: 4px solid #F26B38;
+}
+
+    footer.nb-footer .about {
+        margin: 0 auto;
+        margin-top: 40px;
+        max-width: 1170px;
+        text-align: center;
+    }
+
+        footer.nb-footer .about p {
+            font-size: 13px;
+            color: #999;
+            margin-top: 30px;
+        }
+
+        footer.nb-footer .about .social-media {
+            margin-top: 15px;
+        }
+
+            footer.nb-footer .about .social-media ul li a {
+                display: inline-block;
+                width: 45px;
+                height: 45px;
+                line-height: 45px;
+                border-radius: 50%;
+                font-size: 16px;
+                color: #F26B38;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+            }
+
+                footer.nb-footer .about .social-media ul li a:hover {
+                    background: #F26B38;
+                    color: #fff;
+                    border-color: #F26B38;
+                }
+
+    footer.nb-footer .footer-info-single {
+        margin-top: 30px;
+    }
+
+        footer.nb-footer .footer-info-single .title {
+            color: #aaa;
+            text-transform: uppercase;
+            font-size: 16px;
+            border-left: 4px solid #F26B38;
+            padding-left: 5px;
+        }
+
+        footer.nb-footer .footer-info-single ul li a {
+            display: block;
+            color: #aaa;
+            padding: 2px 0;
+        }
+
+            footer.nb-footer .footer-info-single ul li a:hover {
+                color: #F26B38;
+            }
+
+        footer.nb-footer .footer-info-single p {
+            font-size: 13px;
+            line-height: 20px;
+            color: #aaa;
+        }
+
+    footer.nb-footer .copyright {
+        margin-top: 15px;
+        background: #111;
+        padding: 7px 0;
+        color: #999;
+    }
+
+        footer.nb-footer .copyright p {
+            margin: 0;
+            padding: 0;
+        }
+
+.text-left-button-right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+    .text-left-button-right p {
+        margin-top: 10px;
+        border-left: 4px solid #F26B38;
+        padding-left: 5px;
+    }
+
+.title-header{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.nav-tabs {
+    margin-bottom: 15px;
+}
+
+.modal-header, .close {
+    background-color: #5cb85c;
+    color: white !important;
+    text-align: center;
+    font-size: 30px;
+}
+
+    .modal-header > h4 {
+        color: white;
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .modal-header > img {
+        text-align: center;
+        padding-right: 0px;
+        padding-left: 15px;
+    }
+
+.modal-footer {
+    background-color: #f9f9f9;
+}
+
+.error {
+    color: #ff0000;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.error-h {
+    color: #ff0000;
+    text-align: center;
+    font-weight: normal;
+    font-size: 18px;
+}
+
+.rating-container {
+    text-align: center;
+    font-size: 18px;
+}
+
+.glyphicon-star {
+    color: #f0d61d;
+}
+
+.rating-number {
+    font-weight: bold;
+}

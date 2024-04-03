@@ -1,0 +1,84 @@
+﻿@model ABC_Cinema.Models.TaiKhoan
+@{
+    ViewBag.Title = "change_Pass";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<div class="text-center">
+    <h2 style="margin-top: 10px;">@ViewBag.Title_Header</h2>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-horizontal">
+            @using (Html.BeginForm("change_Pass", "Home", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+            <form>
+                <input name="Id_TaiKhoan" type="hidden" value="@Model.Id_TaiKhoan" readonly />
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="Username">Tên đăng nhập</label>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-user">
+                                </i>
+                            </div>
+                            <input id="Username" name="sTenDN" type="text" value="@Model.TenDangNhap" class="form-control input-md" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="oldPass">Mật khẩu cũ</label>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-key">
+                                </i>
+                            </div>
+                            <input id="oldPass" name="sOldPass" type="password" placeholder="Nhập mật khẩu cũ" class="form-control input-md" required>
+                        </div>
+                        <span class="text-danger">@ViewBag.OldPass</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="newPass">Mật khẩu mới</label>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-key">
+                                </i>
+                            </div>
+                            <input id="newPass" name="sNewPass" type="password" placeholder="Nhập mật khẩu mới" class="form-control input-md" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="reNewPass">Nhập lại mật khẩu</label>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-key">
+                                </i>
+                            </div>
+                            <input id="reNewPass" name="sReNewPass" type="password" placeholder="Nhập lại mật khẩu mới" class="form-control input-md" required>
+                        </div>
+                        <span class="text-danger">@ViewBag.ReNewPass</span>
+                    </div>
+                </div>
+
+                <div class="form-group text-center">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Xác nhận</button>
+                    </div>
+                </div>
+            </form>
+            }
+        </div>
+    </div>
+</div>
+

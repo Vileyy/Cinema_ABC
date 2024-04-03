@@ -1,0 +1,64 @@
+﻿@model ABC_Cinema.Models.Phong
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<h2 style="text-align:center">CHI TIẾT PHÒNG</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên phòng:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenPhong)
+        </dd>
+
+        <dt>
+            Tên rạp:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RapPhim.TenRapChieu)
+        </dd>
+
+        <dt>
+            Loại phòng:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoaiPhong.TenLoaiPhong)
+        </dd>
+
+        <dt>
+            Loại ghế:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoaiGhe.TenLoaiGhe)
+        </dd>
+
+        <dt>
+            Số lượng ghế:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SoLuong)
+        </dd>
+
+        <dt>
+            Mô tả:
+        </dt>
+
+        <dd>
+            @Html.Raw(@Model.LoaiPhong.MoTa.ToString())
+        </dd>
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.Id_Phong }) | @Html.ActionLink("VỀ TRANG QUẢN LÝ PHÒNG CHIẾU", "Index")
+</p>

@@ -1,0 +1,18 @@
+﻿@model IEnumerable<ABC_Cinema.Models.MENU>
+<ul style="margin-left: 20px;">
+    @{
+        int j = 0;
+        foreach (var item in Model)
+        {
+            <li style="border: 2px solid #808080; height: 37px;">
+                <input name="ParentId" value="@item.Id" id="topic_@item.Id" type="radio" />
+                <label for="topic_@item.Id">@item.MenuName</label>
+            </li>
+            if (ViewBag.lst[j] != 0)
+            {
+                @Html.Action("ChildMenu1", "Menu", new { parentId = item.Id })
+            }
+            j++;
+        }
+    }
+</ul>

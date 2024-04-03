@@ -1,0 +1,104 @@
+﻿@model ABC_Cinema.Models.TaiKhoan
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<h2 style="text-align:center">CHI TIẾT KHÁCH HÀNG</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên tài khoản:
+        </dt>
+
+        <dd>
+            <p>@Html.DisplayFor(model => model.TenDangNhap)</p>
+        </dd>
+
+        <dt>
+            Tên khách hàng:
+        </dt>
+
+        <dd>
+            @if (Model.ThongTin.TenNguoiDung != null)
+            {
+                <p>@Html.DisplayFor(model => model.ThongTin.TenNguoiDung)</p>
+            }
+            else
+            {
+                <p>N/A</p>
+            }
+        </dd>
+
+        <dt>
+            Giới tính:
+        </dt>
+
+        <dd>
+            @if (Model.ThongTin.GioiTinh == true)
+            {
+                <p>Nam</p>
+            }
+            else if (Model.ThongTin.GioiTinh == false)
+            {
+                <p>Nữ</p>
+            }
+            else
+            {
+                <p>N/A</p>
+            }
+        </dd>
+
+        <dt>
+            Ngày sinh:
+        </dt>
+
+        <dd>
+            @if (Model.ThongTin.NgaySinh != null)
+            {
+                <p>@Html.FormatValue(@Model.ThongTin.NgaySinh, "{0:dd/MM/yyyy}")</p>
+            }
+            else
+            {
+                <p>N/A</p>
+            }
+        </dd>
+
+        <dt>
+            Địa chỉ:
+        </dt>
+
+        <dd>
+            @if (Model.ThongTin.DiaChi != null)
+            {
+                <p>@Html.DisplayFor(model => model.ThongTin.DiaChi)</p>
+            }
+            else
+            {
+                <p>N/A</p>
+            }
+        </dd>
+
+        <dt>
+            Email:
+        </dt>
+
+        <dd>
+            <p>@Html.DisplayFor(model => model.ThongTin.Email)</p>
+        </dd>
+
+        <dt>
+            Ngày đăng ký:
+        </dt>
+
+        <dd>
+            <p>@Html.FormatValue(@Model.NgayDangKy, "{0:dd/MM/yyyy}")</p>
+        </dd>
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.Id_TaiKhoan }) | @Html.ActionLink("VỀ TRANG QUẢN LÝ KHÁCH HÀNG", "Index")
+</p>

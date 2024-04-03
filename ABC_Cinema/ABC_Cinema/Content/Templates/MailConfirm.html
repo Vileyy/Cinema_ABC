@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #ticket {
+            max-width: 300px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 2px solid #ff0000;
+            border-top-width: 5px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+            #ticket p {
+                font-weight: bold;
+                font-size: 18px;
+                text-align: center;
+            }
+
+            #ticket hr {
+                border-top: 1px dashed #000;
+                width: 100%;
+                margin: 10px 0;
+            }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .col-md-6,
+        .col-xs-6 {
+            width: 48%;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+    </style>
+    <title>Thông Tin Vé</title>
+</head>
+<body>
+
+    <div id="ticket">
+        <p>THÔNG TIN VÉ</p>
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6 col-xs-6">
+                <b>Mã vé:</b>
+            </div>
+            <div class="col-md-6 col-xs-6 text-right">
+                {{Id_Ve}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-xs-6">
+                <b>Tên phim:</b>
+            </div>
+            <div class="col-md-6 col-xs-6 text-right">
+                {{TenPhim}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-xs-6">
+                <b>Rạp:</b>
+            </div>
+            <div class="col-md-6 col-xs-6 text-right">
+                {{TenRap}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-xs-6">
+                <b>Phòng chiếu:</b>
+            </div>
+            <div class="col-md-6 col-xs-6 text-right">
+                {{PhongChieu}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-xs-6">
+                <b>Ngày chiếu:</b>
+            </div>
+            <div class="col-md-6 col-xs-6 text-right">
+                {{NgayChieu}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-xs-6">
+                <b>Suất chiếu:</b>
+            </div>
+            <div class="col-md-6 col-xs-6 text-right">
+                {{GioBatDau}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-xs-6">
+                <b>Ghế:</b>
+            </div>
+            <div class="col-md-6 col-xs-6 text-right">
+                {{lstGhe}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-xs-6">
+                <b>Giá:</b>
+            </div>
+            <div class="col-md-6 col-xs-6 text-right">
+                {{GiaVe}} VNĐ
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

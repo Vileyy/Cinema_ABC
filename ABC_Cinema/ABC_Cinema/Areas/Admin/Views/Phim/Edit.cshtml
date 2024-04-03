@@ -1,0 +1,124 @@
+﻿@model ABC_Cinema.Models.Phim
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<script src="~/ckeditor/ckeditor.js"></script>
+<h2>ĐIỀU CHỈNH THÔNG TIN PHIM</h2>
+@using (Html.BeginForm("Edit", "Phim", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">Mã phim:</label>
+            <div class="col-md-10">
+                <input type="text" size="70" name="iMaPhim" value="@Model.Id_Phim" readonly />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên phim:</label>
+            <div class="col-md-10">
+                <input type="text" size="70" name="sTenPhim" value="@Model.TenPhim"
+                       required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Mô tả:</label>
+            <div class="col-md-10">
+                <textarea name="sMoTa" id="mota">@Model.MoTa</textarea>
+                <script>CKEDITOR.replace('mota');</script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Ảnh bìa:</label>
+            <div class="col-md-10">
+                <input type="file" name="fFileUpload" />
+                <img src="~/Images/Upload/@Model.AnhPhim" width="120"> (Ảnh hiện tại)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Thể loại:</label>
+            <div class="col-md-10">
+                @Html.DropDownList("MaTL")
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Độ tuổi:</label>
+            <div class="col-md-10">
+                @Html.DropDownList("MaDM")
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Thời lượng (phút):</label>
+            <div class="col-md-10">
+                <input type="number" min="30" required name="iThoiLuong"
+                       value="@Model.ThoiLuong" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Chất lượng phim:</label>
+            <div class="col-md-10">
+                <input type="text" size="70" name="sChatLuong" value="@Model.ChatLuong"
+                       required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Năm phát hành:</label>
+            <div class="col-md-10">
+                <input type="text" size="70" name="sNamPhatHanh" value="@Model.NamPhatHanh"
+                       required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Diễn viên:</label>
+            <div class="col-md-10">
+                <input type="text" size="70" name="sDienVien" value="@Model.DienVien"
+                       required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Đạo diễn:</label>
+            <div class="col-md-10">
+                <input type="text" size="70" name="sDaoDien" value="@Model.DaoDien"
+                       required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Ngày công chiếu:</label>
+            <div class="col-md-10">
+                <input type="date" name="dNgayCongChieu" required
+                       value="@Model.NgayCongChieu.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Ngày kết thúc:</label>
+            <div class="col-md-10">
+                <input type="date" name="dNgayKetThuc" required
+                       value="@Model.NgayKetThuc.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="LƯU THÔNG TIN" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("VỀ TRANG QUẢN LÝ PHIM", "Index")
+</div>

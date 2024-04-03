@@ -1,0 +1,65 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<ABC_Cinema.Models.Phim>
+
+@{
+    ViewBag.Title = "PhimDangChieu";
+    Layout = "~/Views/Shared/_CinemaLayout.cshtml";
+}
+
+@helper Truncate(string s, int length)
+{
+    if (s.Length < length)
+    {
+        @s
+    }
+    else
+    {
+        @s.Substring(0, length)<text>...</text>
+    }
+}
+
+<h2 class="text-center" style="margin-top: 10px;">@ViewBag.Title_Header</h2>
+<hr />
+<div class="row text-center">
+    @foreach (var pdc in Model)
+    {
+        <div class="col-sm-4 col-md-3 col-lg-3 col-xs-6">
+            <div class="thumbnail">
+                <a href="@Url.Action("detailsPhim","TrangChu", new {Id_Phim = pdc.Id_Phim})">
+                    <img src="~/Images/Upload/@pdc.AnhPhim" alt="Thumbnail Image 1" class="img-responsive img-rounded imgbook" style="width:300px;">
+                </a>
+                <div class="caption">
+                    <h4 style="min-height:45px; font-weight:bold; margin-top: 5px;">
+                        <a href="@Url.Action("detailsPhim","TrangChu", new {Id_Phim = pdc.Id_Phim})" style="text-decoration: none; color: #000000;">@Truncate(@pdc.TenPhim.ToUpper(), 30)</a>
+                    </h4>
+                    <div>
+                        <p><strong>Thể loại: </strong>@pdc.LoaiPhim.TenLoai</p>
+                        <p><strong>Thời lượng: </strong>@pdc.ThoiLuong phút</p>
+                        <p><strong>Khởi chiếu: </strong>@Html.FormatValue(@pdc.NgayCongChieu, "{0:dd/MM/yyyy}")</p>
+                    </div>
+                    <div class="rating-container" style="display: inline-block; vertical-align: middle; margin-right: 20px;">
+                        <span class="fa fa-star" style="color: #F6C343;"></span>
+                        <span class="rating-number">@pdc.DanhGia</span>
+                    </div>
+                    @if (Session["taikhoan"] != null)
+                    {
+                        <a href="@Url.Action("MuaVe","MuaVe", new {Id_Phim = @pdc.Id_Phim})" class="btn btn-danger" role="button" style="display: inline-block; vertical-align: middle;">
+                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> MUA VÉ
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="~/Views/Shared/Nav_Partial.cshtml" data-target="#myModal" data-toggle="modal" class="btn btn-danger" role="button" style="display: inline-block; vertical-align: middle;">
+                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> MUA VÉ
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="menuTrang">@Html.PagedListPager(Model, page => Url.Action("PhimDangChieu", new { page }))</div>
+
+@section phimdexuat{
+    @Html.Action("PhimDeXuat_Partial", "TrangChu")
+}

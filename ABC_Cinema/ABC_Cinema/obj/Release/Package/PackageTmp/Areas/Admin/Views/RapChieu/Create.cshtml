@@ -1,0 +1,67 @@
+﻿@model ABC_Cinema.Models.RapPhim
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<h2>THÊM RẠP CHIẾU</h2>
+<h4 style="color: red; font-weight: bold;">@Html.Raw(ViewBag.ThongBao)</h4>
+
+@using (Html.BeginForm("Create", "RapChieu", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên rạp chiếu:</label>
+            <div class="col-md-10">
+                <input type="text" size="70" name="sTenRap" value="@ViewBag.TenRap"
+                       required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Tỉnh/Thành:</label>
+            <div class="col-md-10">
+                <input type="text" size="70" name="sTenTP" value="@ViewBag.TenTP"
+                       required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Quận/Huyện:</label>
+            <div class="col-md-10">
+                <input type="text" size="70" name="sTenQH" value="@ViewBag.TenQH"
+                       required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Phường/Xã:</label>
+            <div class="col-md-10">
+                <input type="text" size="70" name="sTenPX" value="@ViewBag.TenPX"
+                       required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Giờ mở cửa:</label>
+            <div class="col-md-10">
+                <input type="time" name="tGioMoCua" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Giờ đóng cửa:</label>
+            <div class="col-md-10">
+                <input type="time" name="tGioDongCua" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thêm mới" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("VỀ TRANG QUẢN LÝ RẠP CHIẾU", "Index")
+</div>

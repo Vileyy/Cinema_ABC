@@ -1,0 +1,42 @@
+﻿@helper Truncate(string s, int length)
+{
+    var plainText = System.Text.RegularExpressions.Regex.Replace(s, "<.*?>", ""); // Loại bỏ mã HTML
+    if (plainText.Length <= length)
+    {
+        @Html.Raw(plainText)
+    }
+    else
+    {
+        var truncatedText = plainText.Substring(0, length);
+        @Html.Raw(truncatedText + "...")
+    }
+}
+
+<div class="container">
+    <hr />
+    <div class="text-left-button-right">
+        <p class="title-header">CÓ THỂ BẠN SẼ THÍCH</p>
+    </div>
+    <div class="row">
+        @foreach (var phim in Model)
+        {
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="media-object-default">
+                    <div class="media" style="padding:10px;">
+                        <div class="media-left ">
+                            <a href="@Url.Action("detailsPhim","TrangChu", new {Id_Phim = phim.Id_Phim})">
+                                <img class="media-object img-rounded imgsachbannhieu"
+                                     src="~/Images/Upload/@phim.AnhPhim" alt="placeholder image">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <a href="@Url.Action("detailsPhim","TrangChu", new {Id_Phim = phim.Id_Phim})" style="text-decoration:none;"><h4 class="media-heading">@Truncate(@phim.TenPhim, 20)</h4></a>
+                            <span style="font-weight: bold; font-size: 14px;">@phim.LoaiPhim.TenLoai - @Html.FormatValue(@phim.NgayCongChieu, "{0:dd/MM/yyyy}")</span>
+                            <br />@Truncate(@phim.MoTa, 130)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

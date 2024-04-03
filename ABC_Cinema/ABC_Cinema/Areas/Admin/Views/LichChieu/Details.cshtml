@@ -1,0 +1,64 @@
+﻿@model ABC_Cinema.Models.LichChieu
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<h2 style="text-align:center">CHI TIẾT LỊCH CHIẾU</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên phim:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phim.TenPhim)
+        </dd>
+
+        <dt>
+            Tên rạp:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RapPhim.TenRapChieu)
+        </dd>
+
+        <dt>
+            Tên phòng:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phong.TenPhong)
+        </dd>
+
+        <dt>
+            Ngày chiếu:
+        </dt>
+
+        <dd>
+            @Html.FormatValue(@Model.NgayChieu, "{0:dd/MM/yyyy}")
+        </dd>
+
+        <dt>
+            Giờ bắt đầu:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GioBatDau)
+        </dd>
+
+        <dt>
+            Giờ kết thúc:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GioKetThuc)
+        </dd>
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.Id_LichChieu }) | @Html.ActionLink("VỀ TRANG QUẢN LÝ LỊCH CHIẾU", "Index")
+</p>

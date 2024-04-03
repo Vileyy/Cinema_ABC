@@ -1,0 +1,108 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<ABC_Cinema.Models.Phim>
+
+@helper Truncate(string s, int length)
+{
+    var plainText = System.Text.RegularExpressions.Regex.Replace(s, "<.*?>", ""); // Loại bỏ mã HTML
+    if (plainText.Length <= length)
+    {
+        @Html.Raw(plainText)
+    }
+    else
+    {
+        var truncatedText = plainText.Substring(0, length);
+        @Html.Raw(truncatedText + "...")
+    }
+}
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+<h3 style="text-align: center; font-weight: bold;">QUẢN LÝ PHIM</h3>
+<div class="flex-box-2">
+    <div>
+        <a href="@Url.Action("Create","Phim")" class="btn btn-success" role="button"><span class="fa fa-plus"></span> Thêm mới</a>
+        <a href="@Url.Action("Index_TL","Phim")" class="btn btn-success" role="button"><span class="fa fa-tags"></span> Thể loại</a>
+        <a href="@Url.Action("Index_DM","Phim")" class="btn btn-success" role="button"><span class="fa fa-filter"></span> Danh mục</a>
+    </div>
+    @using (Html.BeginForm("Index", "Phim", FormMethod.Get, new { @class = "" }))
+    {
+        <div class="input-group">
+            <input type="text" name="searchString" value="@ViewBag.Search" placeholder="Từ khóa tìm kiếm..." class="form-control">
+            <div class="input-group-btn">
+                <button type="submit" class="btn btn-search btn-success">
+                    <span class="glyphicon glyphicon-search"></span>
+                    <span class="label-icon">Search</span>
+                </button>
+            </div>
+        </div>
+    }
+</div>
+<div class="flex-box-2" style="padding: 0px;">
+    <div></div>
+    @using (Html.BeginForm("Index", "Phim", FormMethod.Get))
+    {
+        <p>
+            Kích thước trang: @Html.DropDownList("size", (List<SelectListItem>)ViewBag.size, new { onchange = "this.form.submit();" })
+        </p>
+        @Html.Hidden("page", (object)ViewBag.Page)
+        @Html.Hidden("searchString", (object)ViewBag.Search)
+    }
+</div>
+
+@{
+    if (Model.Count > 0)
+    {
+        <div class="row">
+            <div class="">
+                <div class="table-responsive">
+                    <table id="mytable" class="table table-bordred table-striped">
+                        <thead>
+                        <th>
+                            @Html.ActionLink("Tên phim", "Index", new { page = Page, size = ViewBag.currentSize, sortProperty = "TenPhim", sortOrder = ViewBag.SortOrder, searchString = ViewBag.Search }, new { @class = "custom-link" })
+                            <span class="fa fa-sort"></span>
+                        </th>
+                        <th>Mô tả</th>
+                        <th>Ảnh phim</th>
+                        <th style="min-width:75px;">Thể loại</th>
+                        <th style="min-width:85px;">
+                            @Html.ActionLink("Độ tuổi", "Index", new { page = Page, size = ViewBag.currentSize, sortProperty = "DanhMuc.TenDanhMuc", sortOrder = ViewBag.SortOrder, searchString = ViewBag.Search }, new { @class = "custom-link" })
+                                                <span class="fa fa-sort"></span>
+                                            </th>
+                        <th style="width: 13px;"></th>
+                        <th style="width: 13px;"></th>
+                        <th style="width: 13px;"></th>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>@item.TenPhim</td>
+                                    <td>@Html.Raw(Truncate(item.MoTa, 300).ToString())</td>
+                                    <td><img src="~/Images/Upload/@item.AnhPhim" style="width:75px;" /></td>
+                                    <td>@item.LoaiPhim.TenLoai</td>
+                                    <td>@item.DanhMuc.TenDanhMuc</td>
+                                    <td><p data-placement="top" data-toggle="tooltip" title="Sửa"><a href="@Url.Action("Edit", new {id = item.Id_Phim})" class="btn btn-warning btn-xs" role="button"><span class="glyphicon glyphicon-pencil"></span></a></p></td>
+                                    <td><p data-placement="top" data-toggle="tooltip" title="Chi tiết"><a href="@Url.Action("Details", new {id = item.Id_Phim})" class="btn btn-primary btn-xs" role="button"><span class="glyphicon glyphicon-italic"></span></a></p></td>
+                                    <td><p data-placement="top" data-toggle="tooltip" title="Xóa"><a href="@Url.Action("Delete", new {id = item.Id_Phim})" class="btn btn-danger btn-xs" role="button"><span class="glyphicon glyphicon-trash"></span></a></p></td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h4 class="text-center">Không có kết quả phù hợp!</h4>
+    }
+}
+<div style="text-align: center;">
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+    <div style="display: inline;">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, size = ViewBag.currentSize, sortProperty = ViewBag.SortProperty, sortOrder = ViewBag.SortOrder, searchString = ViewBag.Search }))
+    </div>
+</div>
